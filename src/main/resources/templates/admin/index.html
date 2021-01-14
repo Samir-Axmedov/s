@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorator="admin/partials/layout">
+<head></head>
+<body>
+<th:block layout:fragment="body">
+	<div class="wrapper">
+		<div th:replace="admin/partials/headers::header"></div>
+		<div th:replace="admin/partials/sidebars::sidebar"></div>
+		<div class="content-wrapper">
+			<md-progress-linear md-mode="query" ng-disabled="!showLoading"></md-progress-linear>
+			<ui-view></ui-view>
+		</div>
+
+		<div th:replace="admin/partials/footers::footer"></div>
+		<div th:replace="admin/partials/controlSidebars::controlSidebar"></div>
+	</div>
+	<div th:replace="sso/lockscreens::lock"></div>
+</th:block>
+
+<th:block layout:fragment="scripts">
+	<script type="text/javascript" th:src="@{${jsFile}}" th:each="jsFile: ${jsFiles}"></script>
+</th:block>
+</body>
+</html>

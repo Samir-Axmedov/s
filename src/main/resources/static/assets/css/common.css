@@ -1,0 +1,315 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 14px;
+}
+
+h1.with-border, h2.with-border, h3.with-border, h4.with-border, h5.with-border, h6.with-border {
+  border-bottom: #dddddd 1px solid;
+  padding-bottom: .5rem;
+}
+
+a {
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+}
+
+img.stretch {
+  width: 100%;
+  height: 100%;
+}
+
+img.radius {
+  border-radius: 5px;
+}
+
+img.shadow {
+  box-shadow: 0 0 10px #ddd;
+}
+
+img.circle {
+  border-radius: 50%;
+}
+
+:focus {
+  outline: none;
+}
+
+.margin {
+  margin: 15px;
+}
+
+.margin-sm {
+  margin: 10px;
+}
+
+.margin-xs {
+  margin: 5px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.padding {
+  padding: 15px;
+}
+
+.padding-sm {
+  padding: 10px;
+}
+
+.padding-xs {
+  padding: 5px;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.col-icon {
+  width: 26px;
+}
+
+.hover:hover {
+  background-color: #f5f5f5;
+}
+
+.highlight {
+  color: red;
+  font-weight: bold;
+}
+
+/* angularjs */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+/* bootstrap */
+.text-warning {
+  color: #f48024;
+}
+
+.navbar .nav li a img {
+  position: relative;
+  height: 32px;
+  margin: -15px 0;
+}
+
+.modal-dialog .modal-content .modal-body {
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.label {
+  position: relative;
+  top: -.2em;
+  font-weight: normal;
+  font-size: 80%;
+}
+
+.input-group .input-group-btn:first-child .btn {
+  position: relative;
+  margin-right: -1px;
+}
+
+.form-control + .inline-btn {
+  position: absolute;
+  margin: 6px 0 0 -24px;
+  padding: 0;
+  z-index: 999;
+  background: none;
+  border: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+.form-control + .inline-btn:hover {
+  background-color: #dedede;
+}
+
+.form-control + .inline-btn span, .form-control + .inline-btn i {
+  display: block;
+  position: relative;
+  margin-top: -2px;
+}
+
+.form-control + .inline-btn i {
+  font-size: .75rem;
+}
+
+.row.middle {
+  display: flex;
+}
+
+.row.middle > div {
+  vertical-align: middle;
+}
+
+.btn:focus,
+.btn:active:focus {
+  outline: none;
+}
+
+.media-object {
+  border-radius: 4px;
+  width: 40px;
+}
+
+.list-group-item .pull-right {
+  position: absolute;
+  right: 1rem;
+  top: 15px;
+}
+
+/* others */
+.page-onebox {
+  height: 100vh;
+  overflow: hidden;
+  background-color: #d2d6de;
+  text-align: center;
+}
+
+.page-onebox .box {
+  margin: 10% auto 1.5rem auto;
+  width: 360px;
+  background-color: #ffffff;
+}
+
+.page-onebox .box .logo {
+  width: 50%;
+  margin-bottom: 2rem;
+  font-size: 5rem;
+}
+
+.page-onebox .box .title {
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-onebox .box .box-body {
+  padding: 2rem;
+}
+
+.tree .tree-item {
+  margin-top: 3px;
+  padding: 5px 10px 3px 10px;
+}
+
+.tree .tree-item.with-border {
+  border-bottom: solid 1px #dedede;
+}
+
+.tree .tree-item.disabled {
+  color: #aaaaaa;
+}
+
+.tree .tree-item.active {
+  background-color: #3c8dbc;
+  color: #ffffff;
+}
+
+.tree .tree-item.active a {
+  color: #ffffff;
+}
+
+.tree .tree-item + .child-box {
+  margin-left: 2rem;
+}
+
+.text-block {
+  padding-top: 8px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.icon-group i {
+  padding: 2px 3px;
+  margin: 0 5px;
+}
+
+.img-list {
+  margin: 0 -1rem;
+}
+
+.img-list img {
+  display: inline-block;
+  height: 40px;
+  margin: 1rem;
+}
+
+.tag {
+  padding: 6px 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  background-color: #efefef;
+  border-radius: 3px;
+}
+
+.tag a {
+  margin-left: 5px;
+}
+
+.tag i {
+  font-size: .8rem;
+}
+
+.tag.tag-inline {
+  display: inline-block;
+}
+
+.tag.primary {
+  background-color: #1C90F3;
+  color: #ffffff;
+}
+
+.tag.primary a {
+  color: #ffffff;
+}
+
+.tag.success {
+  background-color: #005f0f;
+  color: #ffffff;
+}
+
+.tag.success a {
+  color: #ffffff;
+}
+
+.tag.warning {
+  background-color: #f48024;
+  color: #ffffff;
+}
+
+.tag.warning a {
+  color: #ffffff;
+}
+
+.tag.danger {
+  background-color: #d22222;
+}
+
+.tag.danger a {
+  color: #ffffff;
+}
+
+.hover .hover-target {
+  display: none;
+}
+
+.hover:hover .hover-target {
+  display: block;
+}
+/*# sourceMappingURL=common.css.map */

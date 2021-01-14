@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+</head>
+<body>
+<footer th:fragment="footer" class="main-footer">
+    <div class="pull-right hidden-xs">
+    	v <strong th:utext="${app.version}"></strong>
+        (build <strong th:utext="${app.buildNumber}"></strong>)
+    </div>
+    <span th:utext="#{copyright}"></span>
+</footer>
+
+<div th:fragment="footer-text">
+    <span th:utext="#{copyright}"></span>
+</div>
+
+</body>
+</html>

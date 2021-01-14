@@ -1,0 +1,108 @@
+<div ng-controller="MenusCtrl">
+    <ui-page-header title="'admin.modules.core.menus.title'"
+                    subtitle="'admin.modules.core.menus.subtitle'"
+                    breadcrumbs="[{'text': 'admin.modules.core.menus.title'}]"></ui-page-header>
+    <ui-page-content>
+        <ui-page-content-header-right>
+            <button type="button" class="btn btn-sm btn-primary" ng-click="add()">
+                <i class="fa fa-fw fa-plus-circle"></i>
+                <span ng-bind="'admin.modules.core.menus.addMenu'|translate"></span>
+            </button>
+        </ui-page-content-header-right>
+
+        <ui-menu-tree ng-model="menus"
+                      can-edit="true"
+                      show-all="true"
+                      on-item-edit="edit(item)"
+                      on-item-remove="remove(item)"
+                      on-item-add-submenu="add(item)"
+                      on-item-toggle-visible="toggleVisible(item)"></ui-menu-tree>
+    </ui-page-content>
+
+    <div id="dialogForm" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            ng-click="closeDialog()"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <span ng-if="formModel.id" ng-bind="'admin.modules.core.menus.editMenu'|translate"></span>
+                        <span ng-if="!formModel.id&&!formModel.parentId" ng-bind="'admin.modules.core.menus.addMenu'|translate"></span>
+                        <span ng-if="!formModel.id&&formModel.parentId" ng-bind="'admin.modules.core.menus.addSubmenu'|translate"></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form name="form">
+                        <md-input-container class="md-block">
+                            <label>
+                                <span ng-bind="'admin.modules.core.menus.fieldTemplate'|translate"></span>
+                            </label>
+                            <md-select ng-model="selectedMenuTemplate" ng-change="selectMenuTemplate()"
+                                       placeholder="{{'admin.modules.core.menus.msgSelectTemplate'|translate}}">
+                                <md-option ng-repeat="m in menuTemplates" ng-value="m">
+                                    {{ '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(m.name.split('.').length - 4) }}
+                                    <i class="fa fa-fw fa-circle-o"></i>
+                                    <span ng-bind="m.name | translate"></span>
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <label>
+                                    <span ng-bind="'admin.modules.core.menus.fieldName'|translate"></span>
+                                    <span ng-show="formModel.name">({{formModel.name|translate}})</span>
+                                </label>
+                                <input name="name" required ng-model="formModel.name"/>
+                                <div ng-messages="form.name.$error">
+                                    <div ng-message="required" ng-bind="'common.msgRequired'|translate"></div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>
+                                    <span ng-bind="'admin.modules.core.menus.fieldIcon'|translate"></span>
+                                    <span ng-show="formModel.icon">(<i class="{{formModel.icon}}"></i>)</span>
+                                </label>
+                                <input name="icon" ng-model="formModel.icon"/>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <label ng-bind="'admin.modules.core.menus.fieldLink'|translate"></label>
+                                <input name="link" ng-model="formModel.link"/>
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label ng-bind="'admin.modules.core.menus.fieldLinkParams'|translate"></label>
+                                <input name="linkParams" ng-model="formModel.linkParams"/>
+                            </md-input-container>
+                        </div>
+                        <md-input-container class="md-block">
+                            <label ng-bind="'admin.modules.core.menus.fieldDisplayOrder'|translate"></label>
+                            <input type="number" name="displayOrder" ng-model="formModel.displayOrder"/>
+                        </md-input-container>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <md-switch class="md-primary no-margin" ng-model="formModel.visible">
+                            <span ng-bind="'admin.modules.core.menus.fieldVisible'|translate"></span>
+                        </md-switch>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                ng-click="closeDialog()"
+                                ng-bind="'common.close'|translate"></button>
+                        <button type="button" class="btn btn-primary"
+                                ng-disabled="form.$invalid"
+                                ng-bind="'common.saveChanges'|translate"
+                                ng-click="save()">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

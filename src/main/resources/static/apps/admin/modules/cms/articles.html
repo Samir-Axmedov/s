@@ -1,0 +1,87 @@
+<div ng-controller="ArticlesCtrl">
+    <ui-page-header title="channel.name"
+                    breadcrumbs="[{'text': channel.name}]"></ui-page-header>
+
+    <ui-page-content>
+        <ui-page-content-header-left>
+            <ui-search placeholder="admin.modules.cms.articles.msgSearchHolder"
+                       on-cancel="cancelSearch()"
+                       on-search="search(__model)"></ui-search>
+        </ui-page-content-header-left>
+        <ui-page-content-header-right>
+            <button class="btn btn-sm btn-primary" ng-click="edit()">
+                <i class="fa fa-fw fa-plus-circle"></i>
+                <span ng-bind="'common.add'|translate"></span>
+            </button>
+        </ui-page-content-header-right>
+        <ui-page-content-footer>
+            <bn-ui-pager ng-model="pager" on-page="pageUsers(page)"></bn-ui-pager>
+        </ui-page-content-footer>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th ng-bind="'admin.modules.cms.articles.fieldTitle'|translate"></th>
+                <th ng-bind="'admin.modules.core.users.fieldCreatedAt'|translate"></th>
+                <th ng-bind="'admin.modules.core.users.fieldLastUpdate'|translate"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in pager.content">
+                <td>
+                    <a class="title" target="_blank" href="{{'/article/' + item.titleKey | path}}" ng-bind="item.title"></a>
+                </td>
+                <td ng-bind="item.createDate | date: 'yyyy-MM-dd HH:mm'"></td>
+                <td ng-bind="item.lastUpdate | date: 'yyyy-MM-dd HH:mm'"></td>
+                <td class="text-right">
+                    <ui-actions on-edit="edit(item)"
+                                on-remove="remove(item)"></ui-actions>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <ui-no-data ng-if="pager.content.length==0"></ui-no-data>
+    </ui-page-content>
+
+
+     <ui-dialog name="dialogForm" size="lg"
+                title="{{formModel.id ? 'common.edit' : 'common.add'}}">
+           <form name="form">
+               <md-input-container class="md-block">
+                   <label>
+                       <span ng-bind="'admin.modules.cms.articles.fieldTitle'|translate"></span>
+                   </label>
+                   <input name="name" required ng-model="formModel.title"/>
+                   <div ng-messages="form.name.$error">
+                       <div ng-message="required" ng-bind="'common.msgRequired'|translate"></div>
+                   </div>
+               </md-input-container>
+               <ui-html-editor ng-model="formModel.content"></ui-html-editor>
+               <br />
+               <div class="form-group">
+                   <div class="tag tag-inline" ng-repeat="item in formModel.attachments">
+                       <a href="{{'/files/' + item.uuid | path}}" target="_blank">
+                           <span ng-bind="item.name"></span>.<span ng-bind="item.extName"></span>
+                       </a>
+                       <a class="text-danger" ng-click="removeAttachment(item)">
+                           <i class="glyphicon glyphicon-trash"></i>
+                       </a>
+                   </div>
+               </div>
+
+               <div class="form-group">
+                   <ui-upload multiple label="common.attachments" url="/api/cms/articles/upload" on-item-success="uploaded(result)" reload-on="{{formModel.id}}"></ui-upload>
+               </div>
+           </form>
+           <ui-dialog-footer>
+               <div class="pull-right">
+                   <button type="button" class="btn btn-primary"
+                           ui-wait-on="isSaving"
+                           ng-disabled="form.$invalid"
+                           ng-bind="'common.saveChanges'|translate"
+                           ng-click="save()">
+                   </button>
+               </div>
+           </ui-dialog-footer>
+       </ui-dialog>
+</div>

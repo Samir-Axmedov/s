@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+</head>
+<body>
+<!-- adminlte -->
+<aside th:fragment="sidebar" class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img th:src="@{${user.avatar}}" class="img-circle user-avatar" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p th:text="${user.username}"></p>
+                <span>
+                    <span th:text="#{admin.role}"></span>:
+                    <span th:text="${#strings.listJoin(user.getRoleNames(),',')}"></span>
+                </span>
+            </div>
+        </div>
+
+        <!-- search form -->
+        <form class="sidebar-form" ng-if="searchOptions" ng-submit="searchOptions.search()">
+            <div class="input-group">
+                <input type="text" class="form-control" th:placeholder="#{common.searchPlaceholder}" ng-model="searchOptions.value">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+              </span>
+            </div>
+        </form>
+
+        <!-- sidebar menus -->
+        <script type="text/ng-template" id="MainMenuItem">
+            <a ui-sref-active="active" ng-click="goTo(menu)">
+                <i class="{{menu.icon}}"></i>
+                <span ng-bind-html="menu.name|translate"></span>
+
+                <span class="pull-right-container" ng-show="menu.children && menu.children.length > 0">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+
+                <span class="pull-right-container" ng-show="menu.labels && menu.labels.length > 0">
+                    <small class="label pull-right {{label.class}}"
+                           ng-repeat="label in menu.labels"
+                           ng-bind="label.text"
+                           ng-show="label.text"></small>
+                </span>
+            </a>
+            <ul class="treeview-menu" ng-if="menu.children.length > 0">
+                <li ng-repeat="menu in menu.children | orderBy: 'displayOrder' track by $index"
+                    ng-include="'MainMenuItem'"
+                    ng-class="{'treeview': menu.children}"></li>
+            </ul>
+        </script>
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header" th:text="#{common.menu}"></li>
+            <li ng-repeat="menu in menus | orderBy: 'displayOrder' track by $index"
+                ng-include="'MainMenuItem'"
+                ng-class="{'treeview': menu.children && menu.children.length > 0}"></li>
+        </ul>
+    </section>
+</aside>
+</body>
+</html>

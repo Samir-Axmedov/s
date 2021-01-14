@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="sso/layout">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+<div layout:fragment="body" class="page-onebox">
+    <div class="box">
+        <div class="box-body">
+            <img class="logo" th:src="@{/static/assets/img/logo.png}"/>
+
+            <p class="title" th:if="!${admin}" th:text="#{sso.registerAccount}"></p>
+            <p class="title" th:if="${admin}" th:text="#{sso.registerAdmin}"></p>
+
+            <form th:action="@{/sso/signup}" th:object="${model}" method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" name="username" th:field="*{username}" th:placeholder="#{sso.fieldUsername}"/>
+                    <span class="fa fa-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password"
+                           class="form-control" name="password" th:field="*{password}" th:placeholder="#{sso.fieldPassword}"/>
+                    <span class="fa fa-lock form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password"
+                           class="form-control" name="passwordConfirm" th:field="*{passwordConfirm}"
+                           th:placeholder="#{sso.fieldRetypePassword}"/>
+                    <span class="fa fa-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 text-left text-block">
+                        <a href="login" th:text="#{sso.alreadyHaveAccount}"></a>
+                    </div>
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" th:text="#{sso.btnSignUp}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="common/footer"></div>
+</div>
+</body>
+</html>

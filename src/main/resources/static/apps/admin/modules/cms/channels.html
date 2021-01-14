@@ -1,0 +1,141 @@
+<div ng-controller="ChannelsCtrl">
+    <ui-page-header title="'admin.modules.cms.channels.title'"
+                    subtitle="'admin.modules.cms.channels.subtitle'"
+                    breadcrumbs="[{'text': 'admin.modules.cms.channels.title'}]"></ui-page-header>
+
+    <ui-page-content>
+        <ui-page-content-header-right>
+            <button type="button" class="btn btn-sm btn-primary" ng-click="add()">
+                <i class="fa fa-fw fa-plus-circle"></i>
+                <span ng-bind="'admin.modules.cms.channels.addChannel'|translate"></span>
+            </button>
+        </ui-page-content-header-right>
+        <div class="tree">
+            <div ng-include="'itemTpl'"
+                 ng-repeat="item in channels | filter: {path: '/'}: true">
+            </div>
+        </div>
+    </ui-page-content>
+
+    <script type="text/ng-template" id="itemTpl">
+        <div class="tree-item with-border hover {{item.path.replaceAll('/', '_')}}" ng-class="{'disabled': !item.visible}">
+            <div class="pull-left">
+                <span ng-bind="item.name"></span>
+                <small>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    (
+                    #{{item.id}}
+                    <span ng-if="item.boType">,
+                        <span ng-bind="'admin.modules.cms.boTypes.' + item.boType.name.toLowerCase() | translate"></span>
+                    </span>
+                    )
+                </small>
+            </div>
+            <div class="pull-right text-right">
+                <ui-actions ng-model="item"
+                            on-view="view(__model)"
+                            show-view="item.boType"
+                            on-add="add(__model)"
+                            on-exchange="exchange(__model)"
+                            on-edit="edit(__model)"
+                            on-remove="remove(__model)"
+                            on-toggle-visible="toggleVisible(__model)"></ui-actions>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="child-box">
+            <div ng-include="'itemTpl'"
+                 ng-repeat="item in channels | filter: {path: item.path + item.id + '/'}: true">
+            </div>
+        </div>
+    </script>
+
+    <ui-dialog name="dialogExchange"
+               title="{{exchangeTitle}}">
+        <form name="formExchange">
+            <md-input-container class="md-block" ng-if="formModel.hasContent && (sameTypeChannels | filter:{ id: '!' + formModel.id}).length > 0">
+                <label>
+                    <span ng-bind="'admin.modules.cms.channels.fieldTransferTo'|translate"></span>
+                </label>
+                <md-select ng-model="formModel.transferTo"
+                           ng-model-options="{trackBy: '$value.id'}">
+                    <md-option ng-repeat="item in sameTypeChannels | filter:{ id: '!' + formModel.id}" ng-value="item">
+                        <span ng-bind="item.name"></span>
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <ui-no-data message="admin.modules.cms.channels.msgNoTargetForTransfer"
+                        ng-if="formModel.hasContent && (sameTypeChannels | filter:{ id: '!' + formModel.id}).length === 0"></ui-no-data>
+            <ui-no-data message="admin.modules.cms.channels.msgNoContentForTransfer"
+                        ng-if="!formModel.hasContent"></ui-no-data>
+        </form>
+        <ui-dialog-footer>
+            <div class="pull-left">
+                <button type="button" class="btn btn-danger"
+                        data-dismiss="modal"
+                        ng-bind="'common.forceDelete'|translate"
+                        ng-click="forceRemove()">
+                </button>
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-primary"
+                        ng-disabled="!formModel.transferTo"
+                        ng-bind="'common.transfer'|translate"
+                        ng-if="formModel.hasContent && (sameTypeChannels | filter:{ id: '!' + formModel.id}).length > 0"
+                        ng-click="exchangeSave()">
+                </button>
+            </div>
+        </ui-dialog-footer>
+    </ui-dialog>
+
+    <ui-dialog name="dialogEdit"
+               title="{{formModel.id ? 'admin.modules.cms.channels.editChannel' : 'admin.modules.cms.channels.addChannel'}}">
+        <form name="form">
+            <div class="alert alert-info" ng-if="formModel.hasContent">
+                <h4>
+                    <i class="icon fa fa-fw fa-info-circle"></i>
+                    <span ng-bind="'common.tips'|translate"></span>
+                </h4>
+                <p ng-bind="'admin.modules.cms.channels.msgHasContentForChangeType'|translate"></p>
+            </div>
+            <md-input-container class="md-block">
+                <label>
+                    <span ng-bind="'admin.modules.cms.channels.fieldName'|translate"></span>
+                    <span ng-if="formModel.parent">({{'admin.modules.cms.channels.fieldParentChanel'|translate}}: <span ng-bind="formModel.parent.name"}></span>)</span>
+                </label>
+                <input name="name" required ng-model="formModel.name"/>
+                <div ng-messages="form.name.$error">
+                    <div ng-message="required" ng-bind="'common.msgRequired'|translate"></div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label>
+                    <span ng-bind="'admin.modules.cms.channels.fieldBoType'|translate"></span>
+                </label>
+                <md-select ng-model="formModel.boType"
+                           ng-disabled="formModel.hasContent"
+                           ng-model-options="{trackBy: '$value.value'}">
+                    <md-option ng-value="null"><em ng-bind="'common.none'|translate"></em></md-option>
+                    <md-option ng-repeat="item in boTypes" ng-value="item">
+                        <span ng-bind="'admin.modules.cms.boTypes.' + item.name.toLowerCase() | translate"></span>
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </form>
+        <ui-dialog-footer>
+            <div class="pull-left">
+                <md-switch class="md-primary no-margin" ng-model="formModel.visible">
+                    <span ng-bind="'admin.modules.cms.channels.fieldVisible'|translate"></span>
+                </md-switch>
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-primary"
+                        ui-wait-on="isSaving"
+                        ng-disabled="form.$invalid"
+                        ng-bind="'common.saveChanges'|translate"
+                        ng-click="save()">
+                </button>
+            </div>
+        </ui-dialog-footer>
+    </ui-dialog>
+</div>

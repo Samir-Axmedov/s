@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="common/layout">
+<head>
+<title>Error</title>
+</head>
+<body class="page-onebox">
+	<div layout:fragment="body">
+		<div class="box">
+			<div class="box-body">
+                <img class="logo" th:src="@{/static/assets/img/logo.png}" />
+				<h4 th:utext="${error}" th:if="${error!=null}"></h4>
+				<h4 th:utext="${message}" th:if="${error==null}"></h4>
+				<br />
+				<a th:href="@{/}" th:text="#{common.backHome}"></a>
+				<br />
+				<div th:inline="text" style="display:none;" th:if="${exception!=null}">
+					Failed URL: [[${url}]] <br />
+					Exception: [[${exception.message}]] <br />
+					[[${exception.stackTrace}]]
+				</div>
+			</div>
+		</div>
+		<div th:include="common/footer"></div>
+	</div>
+</body>
+</html>

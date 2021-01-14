@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title th:text="${app.name}"></title>
+    <link th:href="@{/static/assets/img/logo.png}" rel="shortcut icon">
+    
+    
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/static/assets/css/admin-all.min.css}"/>
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script th:inline="javascript">
+       var contextPath = [[@{/}]];
+       var defaultSkin = [[${skin}]];
+       var defaultLang = [[${app.defaultLang}]];
+    </script>
+</head>
+
+<body class="fixed hold-transition sidebar-mini sidebar-mini-expand-feature" ng-controller="LayoutCtrl">
+
+<th:block layout:fragment="body"></th:block>
+
+<!-- outside -->
+<toaster-container
+        toaster-options="
+		{'limit': 1, 'close-button': true, 'position-class': 'toast-bottom-right' }">
+</toaster-container>
+
+<script th:inline="javascript">
+   var appModules = [[${modules}]];
+</script>
+<script type="text/javascript" th:src="@{/static/assets/js/admin-all.min.js}"></script>
+<th:block layout:fragment="scripts"></th:block>
+
+</body>
+</html>
